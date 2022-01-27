@@ -17,6 +17,10 @@ namespace ADOPM3_10_05
                 numBytesRequested: 64);
 
             foreach (byte b in encrypted) Console.Write($"{b:x2} ");
+
+            string Base64encryption = Convert.ToBase64String(encrypted);
+            Console.WriteLine(Base64encryption);
+
         }
     }
 }
