@@ -9,19 +9,27 @@ namespace ADOPM3_10_03
     {
         static void Main(string[] args)
         {
-            // Create public/private keypair, and save to disk:
+            //Sender wants to send to reciever a secret small message, typically a key for symmetric encryption
+            //Sender initates by informing Reciever that it wants to send the message
+            byte[] data = Encoding.UTF8.GetBytes("Key for symmetric encryption");
+
+            Console.WriteLine($"Message Sender wants to send to Reciever: {Encoding.UTF8.GetString(data)}");
+
+            //Receiever creates a public/private keypair, possibly save to disk:
             using (var rsa = new RSACryptoServiceProvider(2048))
             {
                 File.WriteAllText(fname("Example11_03_PublicKeyOnly.xml"), rsa.ToXmlString(false));
                 File.WriteAllText(fname("Example11_03_PublicPrivate.xml"), rsa.ToXmlString(true));
             }
 
-            // Encrypt. Small message, typically a key for symmetric encryption
-            byte[] data = Encoding.UTF8.GetBytes("Message to encrypt");
-
-            string publicKeyOnly = File.ReadAllText(fname("Example11_03_PublicKeyOnly.xml"));
+            //Reciever keeps the private Key super secret
             string publicPrivate = File.ReadAllText(fname("Example11_03_PublicPrivate.xml"));
 
+            //Receiever gives ONLY the public key to the sender
+            string publicKeyOnly = File.ReadAllText(fname("Example11_03_PublicKeyOnly.xml"));
+
+
+            //Sender encrypts the message using the public key and sends it to Reciever
             byte[] encrypted, decrypted;
             using (var rsaPublicOnly = new RSACryptoServiceProvider())
             {
@@ -29,7 +37,7 @@ namespace ADOPM3_10_03
                 encrypted = rsaPublicOnly.Encrypt(data, true);
            }
 
-            // Decrypt
+            //Reciever decrypts the message using the Private Key
             using (var rsaPublicPrivate = new RSACryptoServiceProvider())
             {
                 // With the private key we can successfully decrypt:
@@ -37,7 +45,7 @@ namespace ADOPM3_10_03
                 decrypted = rsaPublicPrivate.Decrypt(encrypted, true);
             }
 
-            Console.WriteLine(Encoding.UTF8.GetString(decrypted)); // Message to encrypt
+            Console.WriteLine($"Message recieved: {Encoding.UTF8.GetString(decrypted)}");
 
             static string fname(string name)
             {
