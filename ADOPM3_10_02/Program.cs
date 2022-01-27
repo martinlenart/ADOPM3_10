@@ -13,6 +13,7 @@ namespace ADOPM3_10_02
             byte[] iv = { 15, 122, 132, 5, 93, 198, 44, 31, 9, 39, 241, 49, 250, 188, 80, 7 };
 
             //If you randomly generate key and iv, they need to be stored in a file or you cannot decrypt
+            //Key is stored in a secrect Key-repository, while the iv can be shared openly before encrypt/decrypt
             //RandomNumberGenerator rand = RandomNumberGenerator.Create();
             //rand.GetBytes(key);
             //rand.GetBytes(iv);
@@ -50,7 +51,6 @@ namespace ADOPM3_10_02
         }
     }
     //Exercise:
-    //1.    Encrypt and Decrypt using memorystream instead of FileStream
-    //2.    Generate random key and iv and store it in a key-file in Base64 string format
-    //3.    Decrypt and encrypted file by first reading in the key and iv from the key-file
+    //1.    Generate random key and iv and store it in a key-file in Base64 string format
+    //2.    Decrypt and encrypted file by first reading in the key and iv from the key-file
 }

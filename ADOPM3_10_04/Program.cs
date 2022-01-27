@@ -12,7 +12,7 @@ namespace ADOPM3_10_04
 			byte[] data = Encoding.UTF8.GetBytes("Message to sign");
 			byte[] publicKey;
 			byte[] signature;
-			object hasher = SHA1.Create();         
+			object hasher = SHA512.Create();         
 
 			// Generate a new key pair, then sign the data with it:
 			using (var publicPrivate = new RSACryptoServiceProvider(2048))
