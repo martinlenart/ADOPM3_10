@@ -9,7 +9,7 @@ namespace ADOPM3_10_04
     {
         static void Main(string[] args)
         {
-			byte[] data = Encoding.UTF8.GetBytes("Message to sign");
+			byte[] data = Encoding.UTF8.GetBytes("File/Document/Image or other Data to sign");
 			byte[] publicKey;
 			byte[] signature;
 			object hasher = SHA512.Create();         
