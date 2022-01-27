@@ -38,6 +38,6 @@ namespace ADOPM3_10_01
 
         //Exercise:
         //1.    Modify file content and string content and generate new Hash. Compare with old
-        //2.    Convert the Encrypted string to Base64 and printout. 
+        //2.    Convert the Encrypted string to Base64 and write it to a text file.
     }
 }
