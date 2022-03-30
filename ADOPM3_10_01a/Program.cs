@@ -6,24 +6,6 @@ namespace ADOPM3_10_01a
     {
         static void Main(string[] args)
         {
-            /*
-            //Conversion converts between all base types, even if it is not obvious.
-            int i1 = Convert.ToInt32(4.5M);
-            Console.WriteLine(i1);              //4 due to bankers rounding
-
-            int i2 = Convert.ToInt32(5.5F);
-            int i = (int)5.5M;
-            Console.WriteLine(i);
-            Console.WriteLine(i2);              //6 due to bankers rounding
-
-            int i3 = Convert.ToInt32(false);
-            Console.WriteLine(i3);              //0 numeric representation of false
-
-            Console.WriteLine(Convert.ToInt32("1E", 16));    //30 Parsed in hexadecimal
-            Console.WriteLine(Convert.ToUInt32("17", 8));    //15 Parsed in base 8
-            Console.WriteLine(Convert.ToUInt32("101", 2));   //5 Parsed in binary
-            */
-
             //Base-64 conversion
 
             //Step 1: Original
