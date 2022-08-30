@@ -15,42 +15,60 @@ namespace ADOPM3_10_02
             //If you randomly generate key and iv, they need to be stored in a file or you cannot decrypt
             //Key is stored in a secrect Key-repository, while the iv can be shared openly before encrypt/decrypt
             RandomNumberGenerator rand = RandomNumberGenerator.Create();
-            rand.GetBytes(key);
-            rand.GetBytes(iv);
+            //rand.GetBytes(key);
+            //rand.GetBytes(iv);
 
             var stringToEncrypt = "The quick brown fox jumps over the lazy dog.";
 
-            // This is what we're encrypting.
-            Console.WriteLine("This is what we're encrypting and write encrypted to file.");
+            // This is clear text.
+            Console.WriteLine("This is clear text:");
             Console.WriteLine($"As string: {stringToEncrypt}");
- 
-            Console.WriteLine($"As byte[]:");
+            Console.WriteLine($"As unicode byte[]:");
             byte[] dataset = System.Text.Encoding.Unicode.GetBytes(stringToEncrypt);
             foreach (byte b in dataset) Console.Write($"{b:x2} ");
 
             //Encrypt using AES
+            byte[] encryptedBytes;
             using (SymmetricAlgorithm algorithm = Aes.Create())
             using (ICryptoTransform encryptor = algorithm.CreateEncryptor(key, iv))
+            {
+                encryptedBytes = encryptor.TransformFinalBlock(dataset, 0, dataset.Length);
+            }
+
+            //encrypted message
+            Console.WriteLine("\n\nThis is AES encryption:");
+            string encryptedString = Convert.ToBase64String(encryptedBytes);
+            Console.WriteLine($"As string: {encryptedString}");
+            Console.WriteLine($"As byte[]:");
+            foreach (byte b in encryptedBytes) Console.Write($"{b:x2} ");
+            Console.WriteLine();
+
+
+            /*
             using (Stream f = File.Create(fname("Example11_02.bin")))
             using (Stream c = new CryptoStream(f, encryptor, CryptoStreamMode.Write))
                 c.Write(dataset, 0, dataset.Length);
+            */
 
             //Decrypt using AES
-            byte[] decryptedDataset = new byte[dataset.Length];
-
+            byte[] decryptedBytes = new byte[dataset.Length];
             using (SymmetricAlgorithm algorithm = Aes.Create())
             using (ICryptoTransform decryptor = algorithm.CreateDecryptor(key, iv))
+            {
+                decryptedBytes = decryptor.TransformFinalBlock(encryptedBytes, 0, encryptedBytes.Length);
+            }
+
+            /*
             using (Stream f = File.OpenRead(fname("Example11_02.bin")))
             using (Stream c = new CryptoStream(f, decryptor, CryptoStreamMode.Read))
-                c.Read(decryptedDataset, 0, decryptedDataset.Length);
+                l = c.Read(decryptedDataset, 0, decryptedDataset.Length);
+            */
 
-            Console.WriteLine("\n\nThis is what we decrypted from the file.");
-
-            string decryptedString = System.Text.Encoding.Unicode.GetString(decryptedDataset);
+            Console.WriteLine("\n\nThis is AES decryption");
+            string decryptedString = System.Text.Encoding.Unicode.GetString(decryptedBytes);
             Console.WriteLine($"As string: {decryptedString}");
-
             Console.WriteLine($"As byte[]:");
-            foreach (byte b in decryptedDataset) Console.Write($"{b:x2} ");
+            foreach (byte b in decryptedBytes) Console.Write($"{b:x2} ");
             Console.WriteLine();
 
             static string fname(string name)
