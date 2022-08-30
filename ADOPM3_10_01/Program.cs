@@ -2,7 +2,7 @@
 using System.IO;
 using System.Security.Cryptography;
 
-namespace ADOPM3_10_01
+namespace ADOPM3_10_01b
 {
     class Program
     {
