@@ -27,42 +27,26 @@ namespace ADOPM3_10_02
             byte[] dataset = System.Text.Encoding.Unicode.GetBytes(stringToEncrypt);
             foreach (byte b in dataset) Console.Write($"{b:x2} ");
 
-            //Encrypt using AES
+            //Encrypt using AES into a file
             byte[] encryptedBytes;
             using (SymmetricAlgorithm algorithm = Aes.Create())
             using (ICryptoTransform encryptor = algorithm.CreateEncryptor(key, iv))
+            using (Stream f = File.Create(fname("Example11_02.bin")))
             {
                 encryptedBytes = encryptor.TransformFinalBlock(dataset, 0, dataset.Length);
+                f.Write(encryptedBytes, 0, encryptedBytes.Length);
             }
-
-            //encrypted message
-            Console.WriteLine("\n\nThis is AES encryption:");
-            string encryptedString = Convert.ToBase64String(encryptedBytes);
-            Console.WriteLine($"As string: {encryptedString}");
-            Console.WriteLine($"As byte[]:");
-            foreach (byte b in encryptedBytes) Console.Write($"{b:x2} ");
-            Console.WriteLine();
-
-
-            /*
-            using (Stream f = File.Create(fname("Example11_02.bin")))
-            using (Stream c = new CryptoStream(f, encryptor, CryptoStreamMode.Write))
-                c.Write(dataset, 0, dataset.Length);
-            */
 
             //Decrypt using AES
-            byte[] decryptedBytes = new byte[dataset.Length];
+            byte[] decryptedBytes;
             using (SymmetricAlgorithm algorithm = Aes.Create())
             using (ICryptoTransform decryptor = algorithm.CreateDecryptor(key, iv))
-            {
-                decryptedBytes = decryptor.TransformFinalBlock(encryptedBytes, 0, encryptedBytes.Length);
-            }
-
-            /*
             using (Stream f = File.OpenRead(fname("Example11_02.bin")))
-            using (Stream c = new CryptoStream(f, decryptor, CryptoStreamMode.Read))
-                l = c.Read(decryptedDataset, 0, decryptedDataset.Length);
-            */
+            {
+                byte[] encryptedBytes1 = new byte[encryptedBytes.Length];
+                f.Read(encryptedBytes1, 0, encryptedBytes1.Length);
+                decryptedBytes = decryptor.TransformFinalBlock(encryptedBytes1, 0, encryptedBytes1.Length);
+            }
 
             Console.WriteLine("\n\nThis is AES decryption");
             string decryptedString = System.Text.Encoding.Unicode.GetString(decryptedBytes);

@@ -51,7 +51,7 @@ namespace ADOPM3_10_02b
             */
 
             //Decrypt using AES
-            byte[] decryptedBytes = new byte[dataset.Length];
+            byte[] decryptedBytes;
             using (SymmetricAlgorithm algorithm = Aes.Create())
             using (ICryptoTransform decryptor = algorithm.CreateDecryptor(key, iv))
             {
