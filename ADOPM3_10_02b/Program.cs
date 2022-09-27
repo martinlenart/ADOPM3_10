@@ -44,12 +44,6 @@ namespace ADOPM3_10_02b
             Console.WriteLine();
 
 
-            /*
-            using (Stream f = File.Create(fname("Example11_02.bin")))
-            using (Stream c = new CryptoStream(f, encryptor, CryptoStreamMode.Write))
-                c.Write(dataset, 0, dataset.Length);
-            */
-
             //Decrypt using AES
             byte[] decryptedBytes;
             using (SymmetricAlgorithm algorithm = Aes.Create())
@@ -58,11 +52,6 @@ namespace ADOPM3_10_02b
                 decryptedBytes = decryptor.TransformFinalBlock(encryptedBytes, 0, encryptedBytes.Length);
             }
 
-            /*
-            using (Stream f = File.OpenRead(fname("Example11_02.bin")))
-            using (Stream c = new CryptoStream(f, decryptor, CryptoStreamMode.Read))
-                l = c.Read(decryptedDataset, 0, decryptedDataset.Length);
-            */
 
             Console.WriteLine("\n\nThis is AES decryption");
             string decryptedString = System.Text.Encoding.Unicode.GetString(decryptedBytes);
